@@ -1,4 +1,6 @@
-package com.hc.mybatis.dao;
+package com.hc.mybatis.first;
+
+import static org.junit.Assert.*;
 
 import java.io.InputStream;
 
@@ -11,8 +13,8 @@ import org.junit.Test;
 
 import com.hc.mybatis.po.Student;
 
-public class StudentDaoImplTest {
-	
+public class First {
+
 	private SqlSessionFactory sqlSessionFactory;
 
 	@Before
@@ -25,15 +27,14 @@ public class StudentDaoImplTest {
 	}
 
 	@Test
-	public void testFindStudentById() {
-		System.out.println("here is ");
+	public void testSelectById() {
+		// System.out.println("here is ");
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		
 		Student student = null;
-		student = sqlSession.selectOne("test.findStudentById", 2);
+		student = sqlSession.selectOne("test.selectById", 2);
 		
 		sqlSession.close();
 		System.out.println(student);
 	}
-
 }

@@ -1,5 +1,14 @@
 package com.hc.mybatis.po;
 
+/**
+ * 
+* @Title: Student.java
+* @ClassName: Student 
+* @Description: 功能是 定义 sutdent 的  pojo
+* @author 海辰 张文   
+* @date 2017年10月29日 下午6:31:35
+* @version V1.0
+ */
 public class Student {
     private Integer id;
 
