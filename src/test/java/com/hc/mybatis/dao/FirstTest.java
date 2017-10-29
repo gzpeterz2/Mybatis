@@ -1,4 +1,4 @@
-package com.hc.mybatis.first;
+package com.hc.mybatis.dao;
 
 import static org.junit.Assert.*;
 
@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import com.hc.mybatis.po.Student;
 
-public class First {
+public class FirstTest {
 
 	private SqlSessionFactory sqlSessionFactory;
 
@@ -29,10 +29,12 @@ public class First {
 	@Test
 	public void testSelectById() {
 		// System.out.println("here is ");
+		// StudentDaoImpl dao = new StudentDaoImpl(sqlSessionFactory);
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		
 		Student student = null;
 		student = sqlSession.selectOne("test.selectById", 2);
+		assertTrue(student != null);
 		
 		sqlSession.close();
 		System.out.println(student);
