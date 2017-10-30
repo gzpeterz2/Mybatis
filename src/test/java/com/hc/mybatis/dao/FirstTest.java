@@ -1,6 +1,6 @@
 package com.hc.mybatis.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 
@@ -8,17 +8,17 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.hc.mybatis.po.Student;
+import com.hc.mybatis.po.User;
 
 public class FirstTest {
 
-	private SqlSessionFactory sqlSessionFactory;
+	private static SqlSessionFactory sqlSessionFactory;
 
-	@Before
-	public void init() throws Exception {
+	@BeforeClass
+	public static void init() throws Exception {
 		String resource = "SqlMapConfig.xml";
 		
 		InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -29,14 +29,14 @@ public class FirstTest {
 	@Test
 	public void testSelectById() {
 		// System.out.println("here is ");
-		// StudentDaoImpl dao = new StudentDaoImpl(sqlSessionFactory);
+		// UserDaoImpl dao = new UserDaoImpl(sqlSessionFactory);
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		
-		Student student = null;
-		student = sqlSession.selectOne("test.selectById", 2);
-		assertTrue(student != null);
+		User user = null;
+		user = sqlSession.selectOne("test.selectById", 10);
+		// assertTrue(user != null);
 		
 		sqlSession.close();
-		System.out.println(student);
+		System.out.println(user);
 	}
 }

@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<dataSource type="POOLED">
 				<property name="driver" value="com.mysql.jdbc.Driver"/>
 				<property name="url"  
-					value="jdbc:mysql://localhost:3306/test?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
+					value="jdbc:mysql://localhost:3306/mybatis?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
 				<property name="username" value="peter"/>
 				<property name="password" value="peter"/>
 			</dataSource>
@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	如果将和spring整合后，可以使用整合包中提供的mapper扫描器，此处的mappers不用配置了。
 	 -->
 	<mappers>
-		<mapper resource="sqlmap/Student.xml" />
+		<mapper resource="sqlmap/User.xml" />
 		
 	</mappers>
 	

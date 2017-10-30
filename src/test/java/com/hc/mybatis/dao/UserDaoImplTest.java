@@ -1,6 +1,7 @@
 package com.hc.mybatis.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -9,31 +10,38 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.hc.mybatis.po.Student;
+import com.hc.mybatis.po.User;
 
 /**
  * 
-* @Title: StudentDaoImplTest.java
-* @ClassName: StudentDaoImplTest 
+* @Title: UserDaoImplTest.java
+* @ClassName: UserDaoImplTest 
 * @Description: 功能是  单元测试
 * @author 海辰 张文   
 * @date 2017年10月29日 下午7:30:59
 * @version V1.0
  */
-public class StudentDaoImplTest {
+public class UserDaoImplTest {
 
-	private SqlSessionFactory sqlSessionFactory;
+	private static SqlSessionFactory sqlSessionFactory;
 
-	@Before
-	public void init() throws Exception {
+	@BeforeClass
+	public static void init() throws Exception {
 		String resource = "SqlMapConfig.xml";
 		
 		InputStream inputStream = Resources.getResourceAsStream(resource);
 		
 		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		System.out.println("in before class");
+	}
+	
+	@Before
+	public void before() {
+		System.out.println("in before");
 	}
 
 	@Ignore
@@ -56,21 +64,20 @@ public class StudentDaoImplTest {
 
 	@Test
 	public void testSelectById() {
-		StudentDaoImpl dao = new StudentDaoImpl(sqlSessionFactory);
-		Student student = null;
+		UserDaoImpl dao = new UserDaoImpl(sqlSessionFactory);
+		User user = null;
 		try {
-			student = dao.selectById(3);
+			user = dao.selectById(22);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		assertTrue(student != null);
-		System.out.println(student);
+		assertTrue(user != null);
+		System.out.println(user);
 	}
 
-	@Ignore
 	@Test
 	public void testSelectAll() {
-		fail("Not yet implemented");
+		System.out.println("this is in select all");
 	}
 
 	@Ignore
