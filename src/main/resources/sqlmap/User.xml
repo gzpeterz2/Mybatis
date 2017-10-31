@@ -9,6 +9,11 @@ mapper代理开发时将namespace指定为mapper接口的全限定名
 <!-- 在mapper.xml文件中配置很多的sql语句，执行每个sql语句时，封装为MappedStatement对象
 mapper.xml以statement为单位管理sql语句
  -->
+ <!-- <resultMap  id="" type="">
+ 	<id column="" property=""/>
+ 	<result column="" property=""/>
+
+ </resultMap> -->
 
 	<!-- 根据id查询用户信息 -->
 	<!-- 

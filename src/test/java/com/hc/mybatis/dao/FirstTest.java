@@ -13,6 +13,15 @@ import org.junit.Test;
 
 import com.hc.mybatis.po.User;
 
+/**
+ * 
+* @Title: FirstTest.java
+* @ClassName: FirstTest 
+* @Description: mybatis 的 第一个 程序 
+* @author 海辰 张文   
+* @date 2017年10月30日 下午3:00:26
+* @version V1.0
+ */
 public class FirstTest {
 
 	private static SqlSessionFactory sqlSessionFactory;
