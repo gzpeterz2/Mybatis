@@ -11,9 +11,9 @@
 .mtj.tmp/
 
 target/
-*.settings  
-*.project  
-*.classpath 
+/.settings  
+/.project  
+/.classpath 
 
 # Package Files #
 *.jar
