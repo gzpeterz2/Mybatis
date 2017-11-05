@@ -26,7 +26,7 @@
  	   <artifactId>mybatis</artifactId>
 	</dependency>
   </dependencies>
-  <build>
+ <!--  <build>
     <plugins>
        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -38,5 +38,5 @@
            </configuration>
         </plugin>
     </plugins>
-  </build>
+  </build> -->
 </project>

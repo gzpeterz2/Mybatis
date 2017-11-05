@@ -24,30 +24,14 @@ public class UserDaoImpl implements UserDao {
 		this.sqlSessionFactory = sqlSessionFactory;
 	}
 
-	public boolean insert(User entity) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean update(User entity) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean deleteById(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public User selectById(Integer id) throws SQLException {
-		User student = null;
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 
 		//第一个参数 是  namespace +  statementID
 		//第二个参数  就是 我们的 输入参数
-		student = sqlSession.selectOne("test.selectById", id);
+		User user = sqlSession.selectOne("test.selectById", id);
 		sqlSession.close();
-		return student;
+		return user;
 	}
 
 	public List<User> selectAll() throws SQLException {
@@ -64,6 +48,37 @@ public class UserDaoImpl implements UserDao {
 	public List<User> selectList() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean insert(User student) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean update(User entity) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteById(Integer id) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<User> selectByName(String name) throws SQLException {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+
+		// String nameOk = "%" + name + "%";
+		//  List<User> list = sqlSession.selectList("test.selectByName", nameOk);
+		User user = new User();
+		user.setId(25);
+		List<User> list = sqlSession.selectList("test.selectByName2", name);
+		sqlSession.close();
+		return list;
 	}
 
 }

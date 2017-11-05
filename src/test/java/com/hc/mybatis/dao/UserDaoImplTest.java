@@ -1,17 +1,15 @@
 package com.hc.mybatis.dao;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.hc.mybatis.po.User;
@@ -28,6 +26,7 @@ import com.hc.mybatis.po.User;
 public class UserDaoImplTest {
 
 	private static SqlSessionFactory sqlSessionFactory;
+	private static	UserDao dao ;
 
 	@BeforeClass
 	public static void init() throws Exception {
@@ -36,35 +35,21 @@ public class UserDaoImplTest {
 		InputStream inputStream = Resources.getResourceAsStream(resource);
 		
 		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		dao = new UserDaoImpl(sqlSessionFactory);
 		System.out.println("in before class");
 	}
 	
-	@Before
-	public void before() {
-		System.out.println("in before");
-	}
-
-	@Ignore
+	/**
+	 * 
+	* @Title: testSelectById 
+	* @Description: TODO 
+	* @param @param id
+	* @param @param name    设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
 	@Test
-	public void testInsert() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	@Test
-	public void testUpdate() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	@Test
-	public void testDeleteById() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSelectById() {
-		UserDaoImpl dao = new UserDaoImpl(sqlSessionFactory);
+	public void testSelectById(int id, String name) {
 		User user = null;
 		try {
 			user = dao.selectById(22);
@@ -74,16 +59,22 @@ public class UserDaoImplTest {
 		assertTrue(user != null);
 		System.out.println(user);
 	}
+	
+	@Test
+	public void testSelectByName() {
+		List<User> list = null;
+		try {
+			list = dao.selectByName("小明");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		assertTrue(list != null);
+		System.out.println(list);
+	}
 
 	@Test
 	public void testSelectAll() {
 		System.out.println("this is in select all");
-	}
-
-	@Ignore
-	@Test
-	public void testSelectByName() {
-		fail("Not yet implemented");
 	}
 
 }
