@@ -35,8 +35,20 @@ public class ItemsMapperTest {
 	public void testDeleteById() {
 		fail("Not yet implemented");
 	}
-
+	
 	@Test
+	public void testSelectById() throws SQLException {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		ItemsMapper mapper = sqlSession.getMapper(ItemsMapper.class);
+
+		Items items = mapper.selectById(1);
+		// mapper.selectByExample(example)
+		
+		assertTrue(items != null);
+		System.out.println(items);
+	}
+
+/*	@Test
 	public void testSelectByPrimaryKey() throws SQLException {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		ItemsMapper mapper = sqlSession.getMapper(ItemsMapper.class);
@@ -63,5 +75,5 @@ public class ItemsMapperTest {
 		assertTrue(list != null);
 		System.out.println(list);
 		// System.out.println(list.get(0).getDetail());
-	}
+	}*/
 }

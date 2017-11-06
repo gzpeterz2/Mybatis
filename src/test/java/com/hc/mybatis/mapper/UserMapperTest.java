@@ -9,12 +9,9 @@
   
 package com.hc.mybatis.mapper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +22,10 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.hc.mybatis.po.NewUser;
 import com.hc.mybatis.po.User;
+import com.hc.mybatis.po.UserCustom;
+import com.hc.mybatis.po.UserQueryVo;
 
 /**  
  * ClassName:UserMapperTest <br/>  
@@ -43,6 +43,113 @@ public class UserMapperTest {
 		String resource = "SqlMapConfig.xml";
 		InputStream inputStream = Resources.getResourceAsStream(resource);
 		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+	}
+
+	@Test
+	public void testSelectRM() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		NewUser newUser = new NewUser();
+		try {
+			newUser = mapper.selectRM(10);
+		} catch (SQLException e) {
+			e.printStackTrace();  
+		}
+		sqlSession.close();
+		System.out.println(newUser);
+	}
+	
+	@Test
+	public void testCountTable() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		int num = 0;
+		try {
+			UserCustom userCustom = new UserCustom();
+			userCustom.setBeginId(20);
+			userCustom.setEndId(40);
+			num = mapper.countTable(userCustom);
+		} catch (SQLException e) {
+			e.printStackTrace();  
+		}
+		sqlSession.close();
+		System.out.println(num);
+	}
+	
+	@Test
+	public void testSelectDSQL() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		List<User> list = null;
+		try {
+			UserCustom userCustom = new UserCustom();
+			userCustom.setBeginId(20);
+			userCustom.setEndId(40);
+			userCustom.setUsername("小明");
+			list = mapper.selectDSQL(userCustom);
+		} catch (SQLException e) {
+			e.printStackTrace();  
+		}
+		sqlSession.close();
+		System.out.println(list);
+	}
+	
+	@Test
+	public void testSelectForeach() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		List<User> userList = null;
+		try {
+			UserCustom userCustom = new UserCustom();
+			List<Integer> list = new ArrayList<Integer>();
+			list.add(10);
+			list.add(50);
+			list.add(51);
+			userCustom.setList(list);
+			userList = mapper.selectForeach(userCustom);
+		} catch (SQLException e) {
+			e.printStackTrace();  
+		}
+		sqlSession.close();
+		System.out.println(userList);
+	}
+	
+		
+	@Test
+	public void testSelectBetween() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		List<User> list = null;
+		try {
+			UserCustom userCustom = new UserCustom();
+			userCustom.setBeginId(20);
+			userCustom.setEndId(40);
+			list = mapper.selectBetween(userCustom);
+		} catch (SQLException e) {
+			e.printStackTrace();  
+		}
+		sqlSession.close();
+		System.out.println(list);
+	}
+	
+	@Test
+	public void testSelectBetween2() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		List<User> list = null;
+		try {
+			UserCustom userCustom = new UserCustom();
+			userCustom.setBeginId(40);
+			userCustom.setEndId(80);
+			UserQueryVo userQueryVo = new UserQueryVo();
+			userQueryVo.setUserCustom(userCustom);
+			
+			list = mapper.selectBetween2(userQueryVo);
+		} catch (SQLException e) {
+			e.printStackTrace();  
+		}
+		sqlSession.close();
+		System.out.println(list);
 	}
 
 	@Test

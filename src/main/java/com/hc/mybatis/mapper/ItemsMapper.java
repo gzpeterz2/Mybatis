@@ -1,36 +1,38 @@
 package com.hc.mybatis.mapper;
 
-import com.hc.mybatis.po.Items;
-import com.hc.mybatis.po.ItemsExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
+
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Select;
+
+import com.hc.mybatis.po.Items;
+
+
 
 public interface ItemsMapper {
-    long countByExample(ItemsExample example);
+	@Select ("select * from items where id = #{id}")
+	public Items selectById(int id);
 
-    int deleteByExample(ItemsExample example);
+	@Delete ("delete from items where id=#{id} ")
+	public void delete(int id);
 
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(Items record);
-
-    int insertSelective(Items record);
-
-    List<Items> selectByExampleWithBLOBs(ItemsExample example);
-
-    List<Items> selectByExample(ItemsExample example);
-
-    Items selectByPrimaryKey(Integer id);
-
-    int updateByExampleSelective(@Param("record") Items record, @Param("example") ItemsExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") Items record, @Param("example") ItemsExample example);
-
-    int updateByExample(@Param("record") Items record, @Param("example") ItemsExample example);
-
-    int updateByPrimaryKeySelective(Items record);
-
-    int updateByPrimaryKeyWithBLOBs(Items record);
-
-    int updateByPrimaryKey(Items record);
+	@Select ("select * fromn items")
+	public List<Items> selectAll();
 }
+
+//public interface UserMapper {  
+//    @Insert("insert into users(name, age) values(#{name}, #{age})")  
+//    public int add(Users user);  
+//      
+//    @Delete("delete from users where id = #{id}")  
+//    public int deleteById(int id);  
+//      
+//    @Update("update users set name = #{name}, age = #{age} where id = #{id}")  
+//    public int update(Users user);  
+//      
+//    @Select("select * from users where id = #{id}")  
+//    public Users getUserById(int id);  
+//      
+//    @Select("select * from users")  
+//    public List<Users> getAllUsers();  
+//}  

@@ -9,6 +9,31 @@ mapper代理开发时将namespace指定为mapper接口的全限定名
 <!-- 在mapper.xml文件中配置很多的sql语句，执行每个sql语句时，封装为MappedStatement对象
 mapper.xml以statement为单位管理sql语句
  -->
+ 	<resultMap id="userRM" type="newUser">
+		<!--  	这里的 id， 是 表的主键
+		 	column 对应的是 sql 命令 select 出来的字段
+		 	property 对应的 是 type 后面的 pojo 的 属性 -->
+ 		<id column="id"  property="newId"/>
+ 		<result column="address" property="newAddress"/>
+ 		<result column="birthday" property="newBirthday"/>
+ 		<result column="sex" property="newSex"/>
+ 		<result column="username" property="newUsername"/>
+ 	</resultMap>
+ 	
+	<!-- sql 片段 -->
+	<!-- 注意 并没有 包含 where 关键字 -->
+ 	<sql id="sql_DSQL_where">
+ 				<if test="username != null">
+					and username like '%${username}%'
+				</if>
+				<if test="beginId != null">
+					and id &gt; #{beginId}
+				</if>
+				<if test="endId != null">
+					and id &lt; #{endId}
+				</if>
+ 	</sql>
+ 	
 	<!-- 根据id查询用户信息 -->
 	<!-- 
 		id：唯一标识 一个statement
@@ -20,6 +45,44 @@ mapper.xml以statement为单位管理sql语句
 		SELECT * FROM user WHERE id= #{id}
 	</select>
 
+	<select id="selectRM" parameterType="int" resultMap="userRM">
+		SELECT * FROM user WHERE id= #{id}
+	</select>
+
+	<select id="selectBetween" parameterType="userCustom" resultType="user">
+		<!-- select * from user  where id &gt; #{beginId} and id &lt; #{endId}  -->
+		<!-- select * from user where id > #{beginId} and id < #{endId}  -->
+		select * from user where id between #{beginId} and #{endId}
+		<!-- select * from user where id > #{beginId} -->
+	</select>
+	
+	<!-- 动态SQL -->
+	<select id="selectDSQL" parameterType="userCustom" resultType="user">
+		<!-- select * from user  where id &gt; #{beginId} and id &lt; #{endId}  -->
+		select * from user 
+			<where>
+				<include refid="sql_DSQL_where"></include>
+			</where>
+	</select>
+	
+	<!-- foreach SQL -->
+	<!-- SELECT * FROM USER WHERE id IN (10, 50, 51) -->
+	<select id="selectForeach" parameterType="userCustom" resultType="user">
+		select * from user where 
+		<foreach collection="list" open=" id IN ( " close=")" item="id" separator=",">
+			#{id}
+		</foreach>
+	</select>
+	
+
+	<!-- 包装类的 -->
+	<select id="selectBetween2" parameterType="userQueryVo" resultType="user">
+		select * from user where id between #{userCustom.beginId} and #{userCustom.endId}
+	</select>
+
+	<select id="countTable" parameterType="userCustom" resultType="int">
+		select count(*) from user where id between #{beginId} and #{endId}
+	</select>
 
 
 	 <!-- 根据用户名称进行模糊查询  代号必须为 ${value}, 参数不带修饰（引号） -->
