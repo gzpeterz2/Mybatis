@@ -9,12 +9,6 @@ mapper代理开发时将namespace指定为mapper接口的全限定名
 <!-- 在mapper.xml文件中配置很多的sql语句，执行每个sql语句时，封装为MappedStatement对象
 mapper.xml以statement为单位管理sql语句
  -->
- <!-- <resultMap  id="" type="">
- 	<id column="" property=""/>
- 	<result column="" property=""/>
-
- </resultMap> -->
-
 	<!-- 根据id查询用户信息 -->
 	<!-- 
 		id：唯一标识 一个statement
@@ -22,8 +16,39 @@ mapper.xml以statement为单位管理sql语句
 		parameterType：输入 参数的类型，通过#{}接收parameterType输入 的参数
 		resultType：输出结果 类型，不管返回是多条还是单条，指定单条记录映射的pojo类型
 	 -->
-	<select id="selectById" parameterType="int" resultType="com.hc.mybatis.po.User">
+	<select id="selectById" parameterType="int" resultType="user">
 		SELECT * FROM user WHERE id= #{id}
 	</select>
+
+
+
+	 <!-- 根据用户名称进行模糊查询  代号必须为 ${value}, 参数不带修饰（引号） -->
+	<select id="selectLikeName" parameterType="String" resultType="user">
+		SELECT * FROM user WHERE username like '%${value}%'
+	</select>
+	
+	<!-- insert 一个用户数据 -->
+	<!-- parameterType 是一个 pojo 的对象 User,  User 有以下属性， username,sex,birthday,address
+	#{} 接受 pojo 的属性， 通过 OGNL 进行解析
+	#{username} 代表 user的属性  username -->
+	<insert id="insert"  parameterType="user">
+		<selectKey keyProperty="id" order="AFTER" resultType="int">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into user(username, sex, birthday, address) 
+		values (#{username}, #{sex}, #{birthday}, #{address})
+	</insert>
+
+
+	
+	<delete id="delete" parameterType="int" >
+		delete  from user where id = #{id}
+	</delete>
+	
+	<update id="update" parameterType="com.hc.mybatis.po.User" >
+		update user set username=#{username} , sex=#{sex}, birthday=#{birthday},
+			address=#{address} where id = #{id}
+	</update>
+	 
 
 </mapper>	

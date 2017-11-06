@@ -31,5 +31,41 @@ mapper.xml以statement为单位管理sql语句
 	<select id="selectByName2" parameterType="java.lang.String" resultType="com.hc.mybatis.po.User">
 		SELECT * FROM user WHERE username like '%${value}%'
 	</select>
+	
+	<!-- insert 一个用户数据 -->
+	<!-- parameterType 是一个 pojo 的对象 User,  User 有以下属性， username,sex,birthday,address
+	#{} 接受 pojo 的属性， 通过 OGNL 进行解析
+	#{username} 代表 user的属性  username -->
+	<insert id="insert"  parameterType="com.hc.mybatis.po.User">
+		<selectKey keyProperty="id" order="AFTER" resultType="int">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into user(username, sex, birthday, address) 
+		values (#{username}, #{sex}, #{birthday}, #{address})
+	</insert>
+
+	<insert id="insertUuid"  parameterType="com.hc.mybatis.po.User" >
+		<selectKey keyProperty="id" order="BEFORE" resultType="int">
+			select uuid()
+		</selectKey>
+		insert into user(id, username, sex, birthday, address) 
+		values (#{id}, #{username}, #{sex}, #{birthday}, #{address})
+	</insert>
+	
+	<delete id="delete" parameterType="int" >
+		delete  from user where id = #{id}
+	</delete>
+	
+	<update id="update" parameterType="com.hc.mybatis.po.User" >
+		update user set username=#{username} , sex=#{sex}, birthday=#{birthday},
+			address=#{address} where id = #{id}
+	</update>
+	
 
 </mapper>	
+
+
+
+
+
+

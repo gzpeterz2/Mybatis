@@ -3,8 +3,24 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<properties resource="db.properties">
+		<!-- <property name="" value=""/> -->
 	</properties>
+
+	<!-- <settings>
+		<setting name="" value=""/>
+	</settings> -->
 	<!-- 和spring整合后 environments配置将废除-->
+	
+	<typeAliases>
+		<!-- type:  类型，别名的全路径名    alias： 别名 -->
+		<!-- <typeAlias type="com.hc.mybatis.po.User" alias="user" /> -->
+
+		<typeAlias type="java.lang.String" alias="String" />
+
+		<!-- 批量定义别名， 自动在包下面 扫描 pojo， 别名 默认为 类名， 首字母 大写或小写 -->
+		<package name="com.hc.mybatis.po"/> 
+	</typeAliases>
+
 	<environments default="development">
 		<environment id="development">
 		<!-- 使用jdbc事务管理-->
@@ -25,9 +41,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<mappers>
 		<mapper resource="sqlmap/User.xml" />
 		<!-- <mapper resource="mapper/UserMapper.xml" /> -->
-		<mapper class="com.hc.mybatis.mapper.UserMapper"/>
-		<mapper class="com.hc.mybatis.mapper.ItemsMapper"/>
-		<mapper class="com.hc.mybatis.mapper.OrdersMapper"/>
+
+		<!-- 要求：xml 文件 和 java 文件 同名， 而且 都 放到 同一个 目录， 
+		        一般 是 mapper 包里面 -->
+		<!-- <mapper class="com.hc.mybatis.mapper.UserMapper"/>
+		<mapper class="com.hc.mybatis.mapper.ItemsMapper"/> -->
+		
+		<package name="com.hc.mybatis.mapper"/>
 		
 	</mappers>
 	

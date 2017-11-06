@@ -39,11 +39,6 @@ public class UserDaoImpl implements UserDao {
 		return null;
 	}
 
-	public List<User> selectByName() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public List<User> selectList() throws SQLException {
 		// TODO Auto-generated method stub
@@ -51,21 +46,48 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean insert(User student) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean insert(User user) throws SQLException {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {
+			sqlSession.insert("test.insert", user);
+			// 必须提交事务
+			sqlSession.commit();
+		} catch (Exception e) {
+			e.printStackTrace();  
+		} finally {
+			// 关闭 sqlSession
+			sqlSession.close();
+		}
+
+		return true;
 	}
 
 	@Override
-	public boolean update(User entity) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update(User user) throws SQLException {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {
+			sqlSession.update("test.update", user);
+			sqlSession.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+		return true;
 	}
 
 	@Override
 	public boolean deleteById(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {
+			sqlSession.delete("test.delete", id);
+			sqlSession.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+		return true;
 	}
 
 	@Override
@@ -74,8 +96,6 @@ public class UserDaoImpl implements UserDao {
 
 		// String nameOk = "%" + name + "%";
 		//  List<User> list = sqlSession.selectList("test.selectByName", nameOk);
-		User user = new User();
-		user.setId(25);
 		List<User> list = sqlSession.selectList("test.selectByName2", name);
 		sqlSession.close();
 		return list;

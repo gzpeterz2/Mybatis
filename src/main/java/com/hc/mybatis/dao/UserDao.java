@@ -16,9 +16,9 @@ import com.hc.mybatis.po.User;
  */
 public interface UserDao {
 	public List<User> selectList() throws SQLException;
-	public List<User> selectByName(String name) throws SQLException;
-	public boolean insert(User student) throws SQLException;
-	public boolean update(User entity) throws SQLException;
+	public List<User> selectByName(String username) throws SQLException;
+	public boolean insert(User user) throws SQLException;
+	public boolean update(User user) throws SQLException;
 	public boolean deleteById(Integer id) throws SQLException;
 	public User selectById(Integer id) throws SQLException;
 }

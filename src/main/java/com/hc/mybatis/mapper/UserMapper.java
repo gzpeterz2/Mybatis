@@ -15,9 +15,11 @@ import com.hc.mybatis.po.User;
 * @version V1.0
  */
 public interface UserMapper {
-	public List<User> selectList() throws SQLException;
-	public boolean insert(User student) throws SQLException;
-	public boolean update(User entity) throws SQLException;
-	public boolean deleteById(Integer id) throws SQLException;
+	// 返回单条 user
 	public User selectById(Integer id) throws SQLException;
+	// 返回基于 User 的 List 对象
+	public List<User> selectLikeName(String username) throws SQLException;
+	public boolean insert(User user) throws SQLException;
+	public boolean update(User user) throws SQLException;
+	public boolean delete(Integer id) throws SQLException;
 }
