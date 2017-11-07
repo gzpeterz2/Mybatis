@@ -54,8 +54,9 @@ public class UserMapperTest {
 			newUser = mapper.selectRM(10);
 		} catch (SQLException e) {
 			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
 		}
-		sqlSession.close();
 		System.out.println(newUser);
 	}
 	
@@ -71,8 +72,9 @@ public class UserMapperTest {
 			num = mapper.countTable(userCustom);
 		} catch (SQLException e) {
 			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
 		}
-		sqlSession.close();
 		System.out.println(num);
 	}
 	
@@ -89,8 +91,9 @@ public class UserMapperTest {
 			list = mapper.selectDSQL(userCustom);
 		} catch (SQLException e) {
 			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
 		}
-		sqlSession.close();
 		System.out.println(list);
 	}
 	
@@ -109,11 +112,11 @@ public class UserMapperTest {
 			userList = mapper.selectForeach(userCustom);
 		} catch (SQLException e) {
 			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
 		}
-		sqlSession.close();
 		System.out.println(userList);
 	}
-	
 		
 	@Test
 	public void testSelectBetween() {
@@ -127,8 +130,9 @@ public class UserMapperTest {
 			list = mapper.selectBetween(userCustom);
 		} catch (SQLException e) {
 			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
 		}
-		sqlSession.close();
 		System.out.println(list);
 	}
 	
@@ -147,8 +151,9 @@ public class UserMapperTest {
 			list = mapper.selectBetween2(userQueryVo);
 		} catch (SQLException e) {
 			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
 		}
-		sqlSession.close();
 		System.out.println(list);
 	}
 
@@ -161,8 +166,9 @@ public class UserMapperTest {
 			user = mapper.selectById(10);
 		} catch (SQLException e) {
 			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
 		}
-		sqlSession.close();
 		System.out.println(user);
 	}
 
@@ -175,8 +181,9 @@ public class UserMapperTest {
 			list = mapper.selectLikeName("小明");
 		} catch (SQLException e) {
 			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
 		}
-		sqlSession.close();
 		System.out.println(list);
 	}
 
@@ -191,11 +198,12 @@ public class UserMapperTest {
 		user.setBirthday(new Date());
 		try {
 			mapper.insert(user);
+			sqlSession.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
 		}
-		sqlSession.commit();
-		sqlSession.close();
 		System.out.println(user);
 	}
 
@@ -210,13 +218,13 @@ public class UserMapperTest {
 			user.setUsername("Tiger");
 			user.setAddress("this is in hainan 100 num");
 			mapper.update(user);
-
+			sqlSession.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			sqlSession.close();
 		}
 		// assertEquals("Tiger", selectUser.getUsername());
-		sqlSession.commit();
-		sqlSession.close();
 	}
 
 	@Test
@@ -231,11 +239,12 @@ public class UserMapperTest {
 			mapper.insert(user);
 			sqlSession.commit();
 			mapper.delete(user.getId());
+			sqlSession.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
 		}
-		sqlSession.commit();
-		sqlSession.close();
 	}
 }
   
