@@ -14,4 +14,10 @@ public interface OrdersCustomMapper {
     // 使用 resultMap 
     public List<Orders> selectOrdersUserListRM() throws SQLException;
 
+    // 一 对 多 使用 resultMap
+    public List<Orders> selectOrdersAndOrderdetailRM() throws SQLException;
+
+    // lazy 延迟加载
+    public List<Orders> selectOrdersLazy() throws SQLException;
+
 }

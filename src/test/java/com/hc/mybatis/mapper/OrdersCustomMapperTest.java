@@ -22,6 +22,7 @@ import org.junit.Test;
 
 import com.hc.mybatis.po.Orders;
 import com.hc.mybatis.po.OrdersCustom;
+import com.hc.mybatis.po.User;
 
 /**  
  * ClassName:OrdersMapperCustomTest <br/>  
@@ -40,6 +41,26 @@ public class OrdersCustomMapperTest {
 		String resource = "SqlMapConfig.xml";
 		InputStream inputStream = Resources.getResourceAsStream(resource);
 		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+	}
+	
+	@Test
+	// 一对一 延迟加载  
+	public void testSelectOrdersLazy() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		OrdersCustomMapper mapper = sqlSession.getMapper(OrdersCustomMapper.class);
+		
+		List<Orders> list = null;
+		try {
+			list = mapper.selectOrdersLazy();
+			// System.out.println(list);
+			int i = 0;
+			User user = list.get(0).getUser();
+			System.out.println(user);
+		} catch (SQLException e) {
+			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
+		}
 	}
 
 	@Test
@@ -73,7 +94,22 @@ public class OrdersCustomMapperTest {
 		}
 		System.out.println(list);
 	}
-
-
+	
+	@Test
+	public void testSelectOrdersAndOrderdetail() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		OrdersCustomMapper mapper = sqlSession.getMapper(OrdersCustomMapper.class);
+		
+		List<Orders> list = null;
+		try {
+			list = mapper.selectOrdersAndOrderdetailRM();
+		} catch (SQLException e) {
+			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
+		}
+		System.out.println(list);
+		System.out.println(list.get(0).getOrderdetailList());
+	}
 }
   

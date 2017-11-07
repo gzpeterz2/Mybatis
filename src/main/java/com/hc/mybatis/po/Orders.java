@@ -1,6 +1,7 @@
 package com.hc.mybatis.po;
 
 import java.util.Date;
+import java.util.List;
 
 public class Orders {
     private Integer id;
@@ -11,6 +12,7 @@ public class Orders {
 
     // 放一个 user bean 对象 进入 Orders bean
     private User user;
+    private List<Orderdetail> orderdetailList;
 
     public Integer getId() {
         return id;
@@ -64,6 +66,14 @@ public class Orders {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Orderdetail> getOrderdetailList() {
+		return orderdetailList;
+	}
+
+	public void setOrderdetailList(List<Orderdetail> orderdetailList) {
+		this.orderdetailList = orderdetailList;
 	}
     
 }

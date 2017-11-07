@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 mapper代理开发时将namespace指定为mapper接口的全限定名
  -->
 <mapper namespace="com.hc.mybatis.mapper.OrdersCustomMapper">
+
 <!-- 在mapper.xml文件中配置很多的sql语句，执行每个sql语句时，封装为MappedStatement对象
 mapper.xml以statement为单位管理sql语句
  -->
@@ -37,6 +38,29 @@ mapper.xml以statement为单位管理sql语句
  			<result column="username" property="username"/>
  			<result column="sex" property="sex"/>
  		</association>
+ 	</resultMap>
+ 	
+	<!-- 延迟加载的 resultMap 设置 -->
+ 	<resultMap id="RM_orders_lazy" type="orders">
+ 		<id column="id"  property="id"/>
+ 		<result column="number" property="number"/>
+ 		<result column="createtime" property="createtime"/>
+ 		<result column="note" property="note"/>
+ 		<result column="user_id" property="userId"/>
+
+ 		<association  property="user" 
+ 			select="com.hc.mybatis.mapper.UserMapper.selectById" column="user_id">
+ 		</association>
+ 	</resultMap>
+ 	
+ 	<resultMap  id="RM_orders_orderdetail" type="orders" extends="RM_ordersuser">
+ 	
+ 		<collection property="orderdetailList" ofType="orderdetail">
+ 			<id column="orderdetail_id" property="id" />
+ 			<result column="items_num" property="itemsNum"/>
+ 			<result column="items_id" property="itemsId"/>
+ 			<result column="id" property="ordersId"/>
+ 		</collection>
  	</resultMap>
  	
 	<!-- sql 片段 -->
@@ -76,6 +100,27 @@ mapper.xml以statement为单位管理sql语句
   			USER 
 		WHERE orders.user_id = user.id
 	</select>
+	
+	<select id="selectOrdersAndOrderdetailRM"  resultMap="RM_orders_orderdetail">
+		SELECT 
+		  orders.*,
+		  user.username,
+		  user.sex ,
+		  orderdetail.id orderdetail_id,
+		  orderdetail.items_num,
+		  orderdetail.items_id
+		FROM
+		  orders,
+		  USER,
+		  orderdetail
+		WHERE orders.user_id = user.id  AND orders.id = orderdetail.orders_id
+	</select>
+	
+	<!-- 延迟加载 -->
+	<select id="selectOrdersLazy"  resultMap="RM_orders_lazy">
+		SELECT  * from orders
+	</select>
+	
 	 
 
 </mapper>	
