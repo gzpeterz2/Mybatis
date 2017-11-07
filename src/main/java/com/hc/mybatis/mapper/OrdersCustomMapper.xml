@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，为了对sql语句进行隔离，方便管理 ，mapper开发dao方式，使用namespace有特殊作用
+mapper代理开发时将namespace指定为mapper接口的全限定名
+ -->
+<mapper namespace="com.hc.mybatis.mapper.OrdersCustomMapper">
+<!-- 在mapper.xml文件中配置很多的sql语句，执行每个sql语句时，封装为MappedStatement对象
+mapper.xml以statement为单位管理sql语句
+ -->
+<!-- <resultMap id="RM_ordersuser" type="orders">
+ 		<id column="id"  property="id"/>
+ 		<result column="number" property="number"/>
+ 		<result column="createtime" property="createtime"/>
+ 		<result column="note" property="note"/>
+ 		<result column="user_id" property="userId"/>
+ 		<result column="user_id" property="user.id"/>
+ 		<result column="username" property="user.username"/>
+ 		<result column="sex" property="user.sex"/>
+ 	</resultMap> -->
+ 	
+  	<resultMap id="RM_ordersuser" type="orders">
+ 		<id column="id"  property="id"/>
+ 		<result column="number" property="number"/>
+ 		<result column="createtime" property="createtime"/>
+ 		<result column="note" property="note"/>
+ 		<result column="user_id" property="userId"/>
+
+		<!-- 下边完成关联信息的映射
+		association：用于对关联信息映射到单个pojo
+		property：要将关联信息映射到orders的哪个属性中
+		javaType：关联信息映射到orders的属性的类型，是user的类型
+		 -->
+ 		<association  property="user" javaType="user"  >
+ 			<id column="user_id" property="id"/>
+ 			<result column="username" property="username"/>
+ 			<result column="sex" property="sex"/>
+ 		</association>
+ 	</resultMap>
+ 	
+	<!-- sql 片段 -->
+	<!-- 注意 并没有 包含 where 关键字 -->
+ 	<sql id="sql_DSQL_where">
+ 				<if test="username != null">
+					and username like '%${username}%'
+				</if>
+				<if test="beginId != null">
+					and id &gt; #{beginId}
+				</if>
+				<if test="endId != null">
+					and id &lt; #{endId}
+				</if>
+ 	</sql>
+ 	
+	<!-- 一对一 进行 联合查询 使用 resultType -->
+	<select id="selectOrdersUserList"  resultType="ordersCustom">
+		SELECT 
+  			orders.*,
+  			user.username,
+  			user.sex 
+		FROM
+  			orders,
+  			USER 
+		WHERE orders.user_id = user.id
+	</select>
+
+		<!-- 一对一 进行 联合查询 使用 resultMap -->
+	<select id="selectOrdersUserListRM"  resultMap="RM_ordersuser">
+		SELECT 
+  			orders.*,
+  			user.username,
+  			user.sex 
+		FROM
+  			orders,
+  			USER 
+		WHERE orders.user_id = user.id
+	</select>
+	 
+
+</mapper>	
