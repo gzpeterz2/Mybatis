@@ -20,6 +20,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.hc.mybatis.po.NewUser;
@@ -58,6 +59,22 @@ public class UserMapperTest {
 			sqlSession.close();
 		}
 		System.out.println(newUser);
+	}
+
+	@Test
+	public void testSecondCache() throws SQLException {
+		SqlSession sqlSession1 = sqlSessionFactory.openSession();
+		SqlSession sqlSession2 = sqlSessionFactory.openSession();
+
+		UserMapper mapper1 = sqlSession1.getMapper(UserMapper.class);
+		UserMapper mapper2 = sqlSession2.getMapper(UserMapper.class);
+		
+		mapper1.selectById(10);
+		// 这里 必须 关闭 session， 否则 sqlsession 里面缓存的 东西进入不了二级缓存
+		sqlSession1.close();
+
+		mapper2.selectById(10);
+		sqlSession2.close();
 	}
 	
 	@Test
@@ -170,6 +187,30 @@ public class UserMapperTest {
 			sqlSession.close();
 		}
 		System.out.println(user);
+	}
+	
+	@Test
+	public void testFistCache() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		User user = null;
+		User user2 = null;
+
+		try {
+			user = mapper.selectById(10);
+			System.out.println(user);
+			
+			// user.setAddress("hainan");
+			// user.setId(40);
+			// mapper.update(user);
+
+			user2 = mapper.selectById(10);
+			System.out.println(user2);
+		} catch (SQLException e) {
+			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
+		}
 	}
 
 	@Test

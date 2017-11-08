@@ -9,6 +9,20 @@ mapper代理开发时将namespace指定为mapper接口的全限定名
 <!-- 在mapper.xml文件中配置很多的sql语句，执行每个sql语句时，封装为MappedStatement对象
 mapper.xml以statement为单位管理sql语句
  -->
+ 	<!-- 单位：毫秒 -->
+ <!-- <cache eviction="FIFO" readOnly="true" flushInterval="600000" size="1000"/> -->
+ 
+ 	<!-- 开启二级缓存 -->
+ 	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
+ 		<property name="timeToIdleSeconds" value="12000"/>
+        <property name="timeToLiveSeconds" value="3600"/>
+        <!-- 同ehcache参数maxElementsInMemory -->
+		<property name="maxEntriesLocalHeap" value="1000"/>
+		<!-- 同ehcache参数maxElementsOnDisk -->
+        <property name="maxEntriesLocalDisk" value="10000000"/>
+        <property name="memoryStoreEvictionPolicy" value="LRU"/>
+ 	</cache>
+
  	<resultMap id="userRM" type="newUser">
 		<!--  	这里的 id， 是 表的主键
 		 	column 对应的是 sql 命令 select 出来的字段

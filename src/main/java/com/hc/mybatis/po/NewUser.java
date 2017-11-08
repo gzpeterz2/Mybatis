@@ -9,10 +9,16 @@
   
 package com.hc.mybatis.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class NewUser {
-   private Integer newId;
+public class NewUser implements Serializable {
+   /**  
+	 * serialVersionUID:TODO(用一句话描述这个变量表示什么).  
+	 * @since JDK 1.6  
+	 */
+	private static final long serialVersionUID = -8939642395028772608L;
+	private Integer newId;
    private String newUsername;
    private Date newBirthday;
    private Integer newSex;

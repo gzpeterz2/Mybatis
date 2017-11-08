@@ -1,9 +1,13 @@
 package com.hc.mybatis.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
-    private Integer id;
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 4291727680928076688L;
+
+	private Integer id;
 
     private String username;
 

@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<settings>
 		<setting name="lazyLoadingEnabled" value="true" />
 		<setting name="aggressiveLazyLoading" value="false" />
+		<setting name="cacheEnabled" value="true" />
 	</settings>
 
 	<!-- 和spring整合后 environments配置将废除-->
