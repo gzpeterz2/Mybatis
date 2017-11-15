@@ -2,6 +2,7 @@ package com.hc.mybatis.mapper;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import com.hc.mybatis.po.NewUser;
 import com.hc.mybatis.po.User;
@@ -26,6 +27,8 @@ public interface UserMapper {
 	public List<User> selectBetween(UserCustom userCustom) throws SQLException;
 	// 使用 包装类
 	public List<User> selectBetween2(UserQueryVo userQueryVo) throws SQLException;
+
+	public List<Map<Integer, String>> selectMap() throws SQLException;
 
 	// 返回 表里面的数据 条数
 	public int countTable(UserCustom userCustom) throws SQLException;

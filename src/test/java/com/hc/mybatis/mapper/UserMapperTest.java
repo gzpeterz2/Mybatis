@@ -14,13 +14,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.hc.mybatis.po.NewUser;
@@ -45,12 +45,27 @@ public class UserMapperTest {
 		InputStream inputStream = Resources.getResourceAsStream(resource);
 		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 	}
+	
+	@Test
+	public void testSelectMap() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		try {
+			List<Map<Integer, String>> list = mapper.selectMap();
+			System.out.println(list);
+		} catch (SQLException e) {
+			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
+		}
+	}
 
 	@Test
 	public void testSelectRM() {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-		NewUser newUser = new NewUser();
+		// NewUser newUser = new NewUser();
+		NewUser newUser = null;
 		try {
 			newUser = mapper.selectRM(10);
 		} catch (SQLException e) {

@@ -63,6 +63,10 @@ mapper.xml以statement为单位管理sql语句
 		SELECT * FROM user WHERE id= #{id}
 	</select>
 
+	<select id="selectMap"  resultType="java.util.HashMap">
+		SELECT id, username FROM user 
+	</select>
+
 	<select id="selectBetween" parameterType="userCustom" resultType="user">
 		<!-- select * from user  where id &gt; #{beginId} and id &lt; #{endId}  -->
 		<!-- select * from user where id > #{beginId} and id < #{endId}  -->
