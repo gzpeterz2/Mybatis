@@ -20,7 +20,7 @@ mapper.xml以statement为单位管理sql语句
 	<select id="selectById" parameterType="int" resultType="com.hc.mybatis.po.User">
 		SELECT * FROM user WHERE id= #{id}
 	</select>
-
+	
 
 	 <!-- 根据用户名称进行模糊查询 -->
 	<select id="selectByName" parameterType="java.lang.String" resultType="com.hc.mybatis.po.User">

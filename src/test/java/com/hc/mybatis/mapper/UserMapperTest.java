@@ -9,6 +9,7 @@
   
 package com.hc.mybatis.mapper;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -59,6 +60,13 @@ public class UserMapperTest {
 			sqlSession.close();
 		}
 	}
+	
+//	@Test
+//	public void testWrite() throws IOException {
+//		String resource = "SqlMapConfig.xml";
+//		InputStream inputStream = Resources.getResourceAsStream(resource);
+//		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+//	}
 
 	@Test
 	public void testSelectRM() {
