@@ -13,16 +13,16 @@ mapper.xml以statement为单位管理sql语句
  <!-- <cache eviction="FIFO" readOnly="true" flushInterval="600000" size="1000"/> -->
  
  	<!-- 开启二级缓存 -->
- 	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
+ 	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache">
  		<property name="timeToIdleSeconds" value="12000"/>
         <property name="timeToLiveSeconds" value="3600"/>
-        <!-- 同ehcache参数maxElementsInMemory -->
+        同ehcache参数maxElementsInMemory
 		<property name="maxEntriesLocalHeap" value="1000"/>
-		<!-- 同ehcache参数maxElementsOnDisk -->
+		同ehcache参数maxElementsOnDisk
         <property name="maxEntriesLocalDisk" value="10000000"/>
         <property name="memoryStoreEvictionPolicy" value="LRU"/>
  	</cache>
-
+ -->
  	<resultMap id="userRM" type="newUser">
 		<!--  	这里的 id， 是 表的主键
 		 	column 对应的是 sql 命令 select 出来的字段
@@ -32,6 +32,40 @@ mapper.xml以statement为单位管理sql语句
  		<result column="birthday" property="newBirthday"/>
  		<result column="sex" property="newSex"/>
  		<result column="username" property="newUsername"/>
+ 	</resultMap>
+ 	
+ 	<resultMap type="user" id="RM_user_orderdetail">
+ 		<id column="id" property="id"/>
+ 		<result column="username" property="username"/>
+ 		<collection property="detailList" ofType="orderdetail">
+ 			<id column="orderdetailid" property="id"/>
+ 			<result column="items_num" property="itemsNum"/>
+ 			<association property="item"  javaType="items">
+ 				<result column="name" property="name"/>
+ 			</association>
+ 		</collection>
+ 	</resultMap>
+
+	<resultMap type="user" id="RM_user_order_detail">
+ 		<id column="user_id" property="id"/>
+ 		<result column="username" property="username"/>
+ 		<result column="sex" property="sex"/>
+ 		<collection property="orderList" ofType="orders">
+ 			<id column="id" property="id"/>
+ 			<result column="user_id" property="userId"/>
+ 			<result column="number" property="number"/>
+ 			<result column="createtime" property="createtime"/>
+ 			<collection property="orderdetailList" ofType="orderdetail">
+ 				<id column="orderdetail_id" property="id" />	
+ 				<result column="items_num"  property="itemsNum"/>
+ 				<result column="items_id"  property="itemsId"/>
+ 				<association property="item"  javaType="items">
+ 					<id column="items_id"  property="id"/>
+ 					<result column="items_name" property="name"/>
+ 					<result column="items_detail" property="detail"/>
+ 				</association>
+ 			</collection>
+ 		</collection>
  	</resultMap>
  	
 	<!-- sql 片段 -->
@@ -61,6 +95,41 @@ mapper.xml以statement为单位管理sql语句
 
 	<select id="selectRM" parameterType="int" resultMap="userRM">
 		SELECT * FROM user WHERE id= #{id}
+	</select>
+	
+	<select id="selectDuo" resultMap="RM_user_orderdetail">
+	SELECT 
+	user.id,
+	user.username,
+		  orderdetail.items_num,
+		  orderdetail.id AS orderdetailid,
+		  items.name
+		FROM
+		  orders,
+		  USER,
+		  orderdetail,
+		  items
+		WHERE orders.user_id = user.id  AND orders.id = orderdetail.orders_id 
+		AND orderdetail.items_id = items.id
+	</select>
+	
+	<select id="selectDuo2" resultMap="RM_user_order_detail">
+		SELECT 
+		  orders.*,
+		  user.username,
+		  user.sex ,
+		  orderdetail.id orderdetail_id,
+		  orderdetail.items_num,
+		  orderdetail.items_id,
+		  items.name items_name,
+		  items.detail items_detail
+		FROM
+		  orders,
+		  USER,
+		  orderdetail,
+		  items
+WHERE orders.user_id = user.id  AND orders.id = orderdetail.orders_id AND items.id = orderdetail.items_id
+		
 	</select>
 
 	<select id="selectMap"  resultType="java.util.HashMap">

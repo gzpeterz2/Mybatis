@@ -9,7 +9,8 @@
   
 package com.hc.mybatis.mapper;
 
-import java.io.IOException;
+import static org.junit.Assert.*;
+
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -61,13 +62,36 @@ public class UserMapperTest {
 		}
 	}
 	
-//	@Test
-//	public void testWrite() throws IOException {
-//		String resource = "SqlMapConfig.xml";
-//		InputStream inputStream = Resources.getResourceAsStream(resource);
-//		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-//	}
-
+	@Test
+	public void testSelectDuo() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		try {
+			List<User> list = mapper.selectDuo();
+			System.out.println(list);
+			assertTrue(list != null);
+		} catch (SQLException e) {
+			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testSelectDuo2() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		try {
+			List<User> list = mapper.selectDuo2();
+			System.out.println(list);
+			assertTrue(list != null);
+		} catch (SQLException e) {
+			e.printStackTrace();  
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
 	@Test
 	public void testSelectRM() {
 		SqlSession sqlSession = sqlSessionFactory.openSession();

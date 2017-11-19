@@ -2,6 +2,7 @@ package com.hc.mybatis.po;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class User implements Serializable {
 
@@ -16,8 +17,28 @@ public class User implements Serializable {
     private Integer sex;
 
     private String address;
+    
+    private List<Orderdetail> detailList;
+    private List<Orders> orderList;
+    
 
-    public Integer getId() {
+    public List<Orders> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Orders> orderList) {
+		this.orderList = orderList;
+	}
+
+	public List<Orderdetail> getDetailList() {
+		return detailList;
+	}
+
+	public void setDetailList(List<Orderdetail> detailList) {
+		this.detailList = detailList;
+	}
+
+	public Integer getId() {
         return id;
     }
 

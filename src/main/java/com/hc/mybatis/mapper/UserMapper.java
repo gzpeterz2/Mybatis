@@ -34,6 +34,10 @@ public interface UserMapper {
 	public int countTable(UserCustom userCustom) throws SQLException;
 
 	public NewUser selectRM(Integer id) throws SQLException;
+	public List<User> selectDuo() throws SQLException;
+	
+	// 复杂的 一对多
+	public List<User> selectDuo2() throws SQLException;
 	
 	// 动态sql
 	public List<User> selectDSQL(UserCustom userCustom) throws SQLException;
